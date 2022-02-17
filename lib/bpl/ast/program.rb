@@ -17,11 +17,11 @@ module Bpl
         each_child.select{|d| d.is_a?(VariableDeclaration)}
       end
 
-      def fresh_var(type, prefix: prefix)
+      def fresh_var(type, prefix: pre)
         taken = global_variables.map{|d| d.names}.flatten
-        name = prefix unless taken.include?(prefix)
+        name = pre unless taken.include?(pre)
         name ||= (0..Float::INFINITY).each do |i|
-          break "#{prefix}_#{i}" unless taken.include?("#{prefix}_#{i}")
+          break "#{pre}_#{i}" unless taken.include?("#{pre}_#{i}")
         end
         self << decl = bpl("var #{name}: #{type};")
         return StorageIdentifier.new(name: name, declaration: decl)
